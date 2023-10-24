@@ -59,6 +59,27 @@ button:focus-visible {
   width: 250px;
 }
 
+.new-product-upload-dashboard {
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+}
+
+.new-product {
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.preview {
+  background-color: #959595;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
