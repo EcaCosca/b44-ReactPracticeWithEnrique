@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import e from 'cors'
 
 function App() {
   // const count = 0
@@ -9,16 +10,36 @@ function App() {
 
   const [count, setCount] = useState(0)
   const [name, setName] = useState("student")
-  const [lastName, setLastName] = useState("student")
+  const [student, setStudent] = useState({
+    firstName: "John",
+    lastName: "Doe",
+  })
+
+  const handleChange = (event) => {
+    const keyName = event.target.id;
+    const incomingValue = event.target.value;
+    
+    setStudent((prevStudent) => {
+      return {
+        ...prevStudent,
+        [keyName]: incomingValue
+      }
+    })
+  }
 
   return (
     <>        
       <div className="card">
-      <h1>Welcome {name}</h1>
+      <h1>Welcome {student.firstName} {student.lastName}</h1>
       <form>
         <label>
-          Name:
-          <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+          First name:
+          <input type="text" id="firstName" onChange={handleChange} />
+        </label>
+        <br/>
+        <label>
+          Last name:
+          <input type="text" id="lastName" onChange={handleChange} />
         </label>
       </form>
       </div>
