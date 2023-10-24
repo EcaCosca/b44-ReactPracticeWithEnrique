@@ -18,23 +18,39 @@ function App() {
 
   const getData = async () => {
     // EXAMPLE USING THEN AND CATCH
-    axios("https://fakestoreapi.com/products")
-      .then((responseData) => {
-        console.log(responseData);
-        setData(responseData.data);
-      })
-      .catch((error) => console.log(error));
+    // axios.get("https://fakestoreapi.com/produts")
+    // .then((responseData) => {
+    //   console.log(responseData);
+    //   setData(responseData.data);
+    // })
+    // .catch(error => {
+    //   if (error.response) {
+    //     // The request was made and the server responded with a status code
+    //     // that falls out of the range of 2xx
+    //     console.log(error.response.data);
+    //     console.log(error.response.status);
+    //     console.log(error.response.headers);
+    //   } else if (error.request) {
+    //     // The request was made but no response was received
+    //     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    //     // http.ClientRequest in node.js
+    //     console.log(error.request);
+    //   } else {
+    //     // Something happened in setting up the request that triggered an Error
+    //     console.log('Error', error.message);
+    //   }
+    //   console.log(error.config);
+    // });
 
     // EXAMPLE USING ASYNC AWAIT
-    // try {
-    //   const response = await fetch('https://fakestoreapi.com/products')
-    //   const data = await response.json()
-    //   console.log(data);
-    //   setData(data)
+    try {
+      const response = await axios.get('https://fakestoreapi.com/products')
+      console.log(response);
+      setData(response.data)
 
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event) => {
@@ -49,7 +65,7 @@ function App() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // todo try to change what is being displayed after the add of a product
 
@@ -57,17 +73,26 @@ function App() {
       ...product,
     };
 
-    //  FETCH POST REQUEST USING THEN AND CATCH
-    fetch("https://fakestoreapi.com/products", {
-      method: "POST",
-      body: JSON.stringify(newProduct),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => console.log(json))
-      .catch((err) => console.log(err));
+    // AXIOS POST REQUEST USING THEN AND CATCH
+    // axios.post('https://fakestoreapi.com/products', newProduct)
+    // .then(response => {
+    //   console.log(response.data);
+    //   setData([response.data, ...data]);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
+
+    //  AXIOS POST REQUEST USING ASYNC AWAIT
+    try{
+      const response = await axios.post('https://fakestoreapi.com/products', newProduct)
+      console.log(response.data);
+      setData([response.data, ...data]);
+
+    }catch(error){
+      console.log(error);
+    }
+
   };
 
   return (
@@ -133,6 +158,7 @@ function App() {
       </div>
       <div className="products">
         <h1>Products for Sale</h1>
+
         {!data ? (
           <h1>Loading...</h1>
         ) : (
@@ -149,10 +175,10 @@ function App() {
                 <ul>
                   <li>Category: {product.category}</li>
                   <li>Price: {product.price}</li>
-                  <li>
+                  {/* <li>
                     Rating: {product.rating.rate} from {product.rating.count}{" "}
                     reviews
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             );
