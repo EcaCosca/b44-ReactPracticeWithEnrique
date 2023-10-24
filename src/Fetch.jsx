@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
+import e from 'cors'
 
-function App() {
-  const [data, setData] = useState(null)
+function Fetch() {
+  // const count = 0
+  // const [variableName, ourSetterThatChangesTheValueOfTheVariable] = useState(initialState);
+  const [count, setCount] = useState(0)
+  const [done, setDone] = useState(false)
   const [product, setProduct] = useState({
       title: 'Test product',
       price: 13.5,
@@ -11,31 +16,34 @@ function App() {
       image: 'https://i.pravatar.cc',
       category: 'electronic'
   })
+  const [data, setData] = useState(null)
 
   useEffect(() => {
     getData()
-    // todo try to change what is being displayed after the add of a product
   }, []);
 
   const getData = async () => {
+    console.log("Getting all data");
+    
     // EXAMPLE USING THEN AND CATCH 
-    axios('https://fakestoreapi.com/products')
-    .then(responseData => {
-      console.log(responseData)
-      setData(responseData)
-    })
-    .catch(error => console.log(error))
+    // fetch('https://fakestoreapi.com/products')
+    // .then(response => response.json())
+    // .then(responseData => {
+    //   console.log(responseData)
+    //   setData(responseData)
+    // })
+    // .catch(error => console.log(error))
 
     // EXAMPLE USING ASYNC AWAIT
-    // try {
-    //   const response = await fetch('https://fakestoreapi.com/products')
-    //   const data = await response.json()
-    //   console.log(data);
-    //   setData(data)
+    try {
+      const response = await fetch('https://fakestoreapi.com/products')
+      const data = await response.json()
+      console.log(data);
+      setData(data)
 
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleChange = (event) => {
@@ -49,6 +57,8 @@ function App() {
       }
     })
   }
+
+  const handleDone = () => setDone((prevValueOfDone) => !prevValueOfDone)
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -111,7 +121,7 @@ function App() {
       <h3>Preview</h3>
       <div className='card'>
         <h1>{product.title}</h1>
-        <img className="product-image" src={product.image} alt={product.title} />
+        <img src={product.image} alt={product.title} />
         <p>{product.description}</p>
         <ul>
           <li>Category: {product.category}</li>
@@ -129,7 +139,7 @@ function App() {
           return (
             <div className='card'>
               <h1>{product.title}</h1>
-              <img className="product-image" src={product.image} alt={product.title} />
+              <img src={product.image} alt={product.title} />
               <p>{product.description}</p>
               <ul>
                 <li>Category: {product.category}</li>
@@ -140,8 +150,11 @@ function App() {
           )
         })}
       </div>
+        <button onClick={handleDone}>
+          {done ? "Not done" : "Done"}
+        </button>
     </>
   )
 }
 
-export default App
+export default Fetch
