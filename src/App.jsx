@@ -17,14 +17,32 @@ function App() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    console.log("Getting all data");
-    fetch('https://fakestoreapi.com/products')
-      .then(response => response.json())
-      .then(json => {
-        console.log(json)
-        setData(json)
-      })
+    getData()
   }, []);
+
+  const getData = async () => {
+    console.log("Getting all data");
+    
+    // EXAMPLE USING THEN AND CATCH 
+    // fetch('https://fakestoreapi.com/products')
+    // .then(response => response.json())
+    // .then(responseData => {
+    //   console.log(responseData)
+    //   setData(responseData)
+    // })
+    // .catch(error => console.log(error))
+
+    // EXAMPLE USING ASYNC AWAIT
+    try {
+      const response = await fetch('https://fakestoreapi.com/products')
+      const data = await response.json()
+      console.log(data);
+      setData(data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleChange = (event) => {
     const keyName = event.target.id;
