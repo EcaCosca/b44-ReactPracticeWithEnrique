@@ -10,6 +10,7 @@ function App() {
 
   const [count, setCount] = useState(0)
   const [name, setName] = useState("student")
+  const [done, setDone] = useState(false)
   const [student, setStudent] = useState({
     firstName: "John",
     lastName: "Doe",
@@ -26,6 +27,8 @@ function App() {
       }
     })
   }
+
+  const handleDone = () => setDone((prevValueOfDone) => !prevValueOfDone)
 
   return (
     <>        
@@ -57,6 +60,9 @@ function App() {
         </button>
 
       </div>
+        <button onClick={handleDone}>
+          {done ? "Not done" : "Done"}
+        </button>
     </>
   )
 }
