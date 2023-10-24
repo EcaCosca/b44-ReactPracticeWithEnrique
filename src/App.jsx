@@ -67,7 +67,6 @@ function App() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // todo try to change what is being displayed after the add of a product
 
     const newProduct = {
       ...product,
