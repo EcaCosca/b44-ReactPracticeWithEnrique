@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -7,14 +7,24 @@ import e from 'cors'
 function App() {
   // const count = 0
   // const [variableName, ourSetterThatChangesTheValueOfTheVariable] = useState(initialState);
-
   const [count, setCount] = useState(0)
-  const [name, setName] = useState("student")
+  // const [name, setName] = useState("student")
   const [done, setDone] = useState(false)
   const [student, setStudent] = useState({
     firstName: "John",
     lastName: "Doe",
   })
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+    console.log("Getting all data");
+    fetch('https://fakestoreapi.com/products')
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        setData(json)
+      })
+  }, []);
 
   const handleChange = (event) => {
     const keyName = event.target.id;
@@ -59,6 +69,24 @@ function App() {
           Reset count to 0
         </button>
 
+      </div>
+      <div className='products'>
+        {
+          !data ? <h1>Loading...</h1> : 
+          data.map((product) => {
+          return (
+            <div className='card'>
+              <h1>{product.title}</h1>
+              <img src={product.image} alt={product.title} />
+              <p>{product.description}</p>
+              <ul>
+                <li>Category: {product.category}</li>
+                <li>Price: {product.price}</li>
+                <li>Rating: {product.rating.rate} from {product.rating.count} reviews</li>
+              </ul>
+            </div>
+          )
+        })}
       </div>
         <button onClick={handleDone}>
           {done ? "Not done" : "Done"}
