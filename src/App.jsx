@@ -4,11 +4,25 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
   // const count = 0
+  // const [variableName, ourSetterThatChangesTheValueOfTheVariable] = useState(initialState);
+
+  const [count, setCount] = useState(0)
+  const [name, setName] = useState("student")
+  const [lastName, setLastName] = useState("student")
 
   return (
     <>        
+      <div className="card">
+      <h1>Welcome {name}</h1>
+      <form>
+        <label>
+          Name:
+          <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+        </label>
+      </form>
+      </div>
+
       <div className="card">
       <h1>Count: {count}</h1>
         <button onClick={() => setCount((prevValueOfCount) => prevValueOfCount + 1)}>
