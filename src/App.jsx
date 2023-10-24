@@ -8,11 +8,13 @@ function App() {
   // const count = 0
   // const [variableName, ourSetterThatChangesTheValueOfTheVariable] = useState(initialState);
   const [count, setCount] = useState(0)
-  // const [name, setName] = useState("student")
   const [done, setDone] = useState(false)
-  const [student, setStudent] = useState({
-    firstName: "John",
-    lastName: "Doe",
+  const [product, setProduct] = useState({
+      title: 'Test product',
+      price: 13.5,
+      description: 'lorem ipsum set',
+      image: 'https://i.pravatar.cc',
+      category: 'electronic'
   })
   const [data, setData] = useState(null)
 
@@ -48,9 +50,9 @@ function App() {
     const keyName = event.target.id;
     const incomingValue = event.target.value;
     
-    setStudent((prevStudent) => {
+    setProduct((prevProduct) => {
       return {
-        ...prevStudent,
+        ...prevProduct,
         [keyName]: incomingValue
       }
     })
@@ -58,37 +60,79 @@ function App() {
 
   const handleDone = () => setDone((prevValueOfDone) => !prevValueOfDone)
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newProduct = {  
+      ...product
+    }
+
+    //  FETCH POST REQUEST USING THEN AND CATCH
+    fetch('https://fakestoreapi.com/products',{
+            method:"POST",
+            body:JSON.stringify(newProduct),
+            headers:{
+              "Content-Type":"application/json",
+            }
+        })
+    .then(res=>res.json())
+    .then(json=>console.log(json))
+    .catch(err=>console.log(err))
+  }
+
   return (
+
     <>        
       <div className="card">
-      <h1>Welcome {student.firstName} {student.lastName}</h1>
-      <form>
+      <h1>Welcome to your very own fakestore</h1>
+      <p>New product:</p>
+
+      <form onSubmit={handleSubmit}>
         <label>
-          First name:
-          <input type="text" id="firstName" onChange={handleChange} />
+        Title:
+          <input type="text" id="title" onChange={handleChange} />
         </label>
         <br/>
         <label>
-          Last name:
-          <input type="text" id="lastName" onChange={handleChange} />
+          Description:
+          <input type="text" id="description" onChange={handleChange} />
         </label>
+        <br/>
+        <label>
+          Image:
+          <input type="text" id="image" onChange={handleChange} />
+        </label>
+        <br/>
+        <label>
+          Category:
+          <input type="text" id="category" onChange={handleChange} />
+        </label>
+        <br/>
+        <label>
+          Price:
+          <input type="number" id="price" onChange={handleChange} />
+        </label>
+        <br/>
+        <button>Submit</button>
       </form>
-      </div>
-
-      <div className="card">
-      <h1>Count: {count}</h1>
-        <button onClick={() => setCount((prevValueOfCount) => prevValueOfCount + 1)}>
-          Add 1 to count
-        </button>
-        <button onClick={() => setCount((prevValueOfCount) => prevValueOfCount - 1)}>
-          Substract 1 to count
-        </button>
-        <button onClick={() => setCount(0)}>
-          Reset count to 0
-        </button>
 
       </div>
+
+      <h3>Preview</h3>
+      <div className='card'>
+        <h1>{product.title}</h1>
+        <img src={product.image} alt={product.title} />
+        <p>{product.description}</p>
+        <ul>
+          <li>Category: {product.category}</li>
+          <li>Price: {product.price}</li>
+          {/* <li>Rating: {product.rating.rate} from {product.rating.count} reviews</li> */}
+        </ul> 
+      </div>
+
+
       <div className='products'>
+      <h1>Products for Sale</h1>
         {
           !data ? <h1>Loading...</h1> : 
           data.map((product) => {
